@@ -27,4 +27,4 @@ def to_datetime(filetime: int) -> datetime:
 	# Get seconds and remainder in terms of Unix epoch
 	s, ns100 = divmod(filetime - EPOCH_AS_FILETIME, HUNDREDS_OF_NS)
 	# Convert to datetime object, with remainder as microseconds.
-	return datetime.utcfromtimestamp(s).replace(microsecond=(ns100 // 10))
+	return datetime.fromtimestamp(s, timezone.utc).replace(microsecond=(ns100 // 10))
