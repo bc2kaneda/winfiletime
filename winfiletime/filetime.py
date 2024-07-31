@@ -23,8 +23,10 @@ def to_datetime(filetime: int) -> datetime:
 	Converts a Windows filetime number to a Python datetime. The new
 	datetime object is timezone-naive but is equivalent to tzinfo=utc.
 	"""
-
 	# Get seconds and remainder in terms of Unix epoch
 	s, ns100 = divmod(filetime - EPOCH_AS_FILETIME, HUNDREDS_OF_NS)
+	if s < 0:
+		s, ns100 = 0, 0
+
 	# Convert to datetime object, with remainder as microseconds.
 	return datetime.fromtimestamp(s, timezone.utc).replace(microsecond=(ns100 // 10))
